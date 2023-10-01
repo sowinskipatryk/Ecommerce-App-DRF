@@ -3,5 +3,5 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    is_customer = models.BooleanField(default=False)
+    is_client = models.BooleanField(default=False)
     is_seller = models.BooleanField(default=False)

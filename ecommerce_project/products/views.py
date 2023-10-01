@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from permissions import IsSeller
 from .filters import ProductFilter
 from .models import Product
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, ProductListSerializer
 from .utils import create_thumbnail
 
 
@@ -21,6 +21,11 @@ class ProductViewSet(viewsets.ModelViewSet):
     filterset_class = ProductFilter
     ordering_fields = ('name', 'category', 'price')
     ordering = ('name',)
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ProductListSerializer
+        return ProductSerializer
 
     def list(self, request, *args, **kwargs):
         ordering = request.query_params.get('ordering', 'name')
