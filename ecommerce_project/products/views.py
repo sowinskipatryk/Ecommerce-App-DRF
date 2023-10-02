@@ -1,8 +1,9 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.decorators import permission_classes
+from rest_framework.filters import OrderingFilter
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from permissions import IsSeller
 from .filters import ProductFilter
@@ -11,13 +12,13 @@ from .serializers import ProductSerializer, ProductListSerializer
 from .utils import create_thumbnail
 
 
-@permission_classes([])
+@permission_classes([AllowAny])
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = PageNumberPagination
     permission_classes = [IsAuthenticated]
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, OrderingFilter)
     filterset_class = ProductFilter
     ordering_fields = ('name', 'category', 'price')
     ordering = ('name',)
