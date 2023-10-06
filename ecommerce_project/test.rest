@@ -1,0 +1,95 @@
+### 200 OK
+
+POST http://127.0.0.1:8000/api/users/signup
+Content-Type: application/json
+
+{ "username": "client", "password": "client", "email": "client@ecommerce.com", "role": "client" }
+
+### 200 OK
+
+POST http://127.0.0.1:8000/api/users/signup
+Content-Type: application/json
+
+{ "username": "seller", "password": "seller", "email": "seller@ecommerce.com", "role": "seller" }
+
+### 200 OK
+
+GET http://127.0.0.1:8000/api/products
+Content-Type: application/json
+
+### 200 OK
+
+GET http://127.0.0.1:8000/api/products/2
+Content-Type: application/json
+
+### 401 Unauthorized (Authenticated only)
+
+GET http://127.0.0.1:8000/api/orders
+Content-Type: application/json
+
+### 200 OK
+
+GET http://127.0.0.1:8000/api/orders
+Content-Type: application/json
+Authorization: Token 273e6c533bb42c49a95f78a07e7d84322503cd7b
+
+### 403 Forbidden (Client only)
+
+GET http://127.0.0.1:8000/api/orders
+Content-Type: application/json
+Authorization: Token 3011e002256eb0be72a86bee1c38194a3cf2ab32
+
+### 200 OK
+
+POST http://127.0.0.1:8000/api/users/login
+Content-Type: application/json
+
+{ "username": "client", "password": "client" }
+
+### 200 OK
+
+POST http://127.0.0.1:8000/api/users/login
+Content-Type: application/json
+
+{ "username": "seller", "password": "seller" }
+
+### 201 Created
+
+POST http://127.0.0.1:8000/api/orders/
+Content-Type: application/json
+Authorization: Token 273e6c533bb42c49a95f78a07e7d84322503cd7b
+
+{ "first_name": "Hanzo", "last_name": "Tanaka", "delivery_address": "Asakusa 8-13, Tokyo", "items": [ {"product": 1, "quantity": 3}, {"product": 2, "quantity": 2} ] }
+
+### 403 Forbidden (Client only)
+
+POST http://127.0.0.1:8000/api/orders/
+Content-Type: application/json
+Authorization: Token 3011e002256eb0be72a86bee1c38194a3cf2ab32
+
+{ "first_name": "Hanzo", "last_name": "Tanaka", "delivery_address": "Asakusa 8-13, Tokyo", "items": [ {"product": 1, "quantity": 3}, {"product": 2, "quantity": 2} ] }
+
+### 401 Unauthorized (Authenticated only)
+
+POST http://127.0.0.1:8000/api/orders/
+Content-Type: application/json
+
+{ "first_name": "Hanzo", "last_name": "Tanaka", "delivery_address": "Asakusa 8-13, Tokyo", "items": [ {"product": 1, "quantity": 3}, {"product": 2, "quantity": 2} ] }
+
+
+### 403 Forbidden (Seller only)
+
+GET http://127.0.0.1:8000/api/orders/stats/?date_from=2023-10-06&date_to=2023-10-07&num_products=2
+Content-Type: application/json
+Authorization: Token 273e6c533bb42c49a95f78a07e7d84322503cd7b
+
+### 200 OK
+
+GET http://127.0.0.1:8000/api/orders/stats/?date_from=2023-10-06&date_to=2023-10-07&num_products=2
+Content-Type: application/json
+Authorization: Token 3011e002256eb0be72a86bee1c38194a3cf2ab32
+
+### 401 Unauthorized (Authenticated only)
+
+GET http://127.0.0.1:8000/api/orders/stats/?date_from=2023-10-06&date_to=2023-10-07&num_products=2
+Content-Type: application/json
