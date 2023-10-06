@@ -3,16 +3,18 @@ from io import BytesIO
 
 
 def create_thumbnail(instance, data):
-    if 'photo' in data:
-        image = Image.open(BytesIO(data['photo'].read()))
+    image_data = data['photo']
+    image = Image.open(image_data)
+    
+    max_width = 200
+    width_percent = (max_width / float(image.size[0]))
+    new_height = int((float(image.size[1]) * float(width_percent)))
 
-        max_width = 200
-        width_percent = (max_width / float(image.size[0]))
-        new_height = int((float(image.size[1]) * float(width_percent)))
+    image.thumbnail((max_width, new_height))
 
-        image.thumbnail((max_width, new_height), Image.ANTIALIAS)
+    thumb_io = BytesIO()
+    image.save(thumb_io, format='JPEG')
 
-        thumb_io = BytesIO()
-        image.save(thumb_io, format='JPEG')
+    thumbnail_name = instance.photo.name.split('/')[-1]
 
-        instance.photo.save(instance.photo.name, thumb_io)
+    instance.photo_thumbnail.save(thumbnail_name, thumb_io)

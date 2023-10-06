@@ -4,19 +4,19 @@ from products.models import Product
 
 
 class Order(models.Model):
-    client = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    client = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True)
     delivery_address = models.CharField(max_length=255)
     products = models.ManyToManyField(Product, through='OrderItem')
     date_ordered = models.DateTimeField(auto_now_add=True)
-    due_date = models.DateTimeField()
-    summary_price = models.DecimalField(max_digits=10, decimal_places=2)
+    due_date = models.DateTimeField(blank=True)
+    summary_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
 
     def __str__(self):
         return f"Order for {self.client} placed on {self.date_ordered}"
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, blank=True, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
